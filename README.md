@@ -28,4 +28,9 @@ curl -fsSL https://agentown.site/install.sh | sudo bash
 ![Kubernetes](https://img.shields.io/badge/k3s-FFC61C?logo=k3s&logoColor=black)
 ![Claude](https://img.shields.io/badge/Claude-D97757?logo=claude&logoColor=white)
 
+### Find me
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-huynhhung99-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/huynhhung99)
+[![Agentown](https://img.shields.io/badge/agentown.site-E8A26A?logo=googlechrome&logoColor=white)](https://agentown.site)
+
 Ideas, worlds and translations are welcome: [open a discussion](https://github.com/wanatabe-yuu/agentown/discussions).
