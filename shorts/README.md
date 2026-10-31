@@ -22,5 +22,8 @@ npx remotion still  src/index.ts OddOneOut out/frame.jpg --frame=120
   Render with `npx remotion still src/index.ts Avatar out/avatar.png --image-format=png`;
   pass `--props='{"showCircleGuide":true}'` to preview YouTube's circular crop.
 
+- `ToughnessAvatar` (800x800 still): hexagon badge for the "Toughness Challenge" channel.
+  `--props='{"variant":"full"}'` for the full wordmark, `{"variant":"monogram"}` for "TC".
+
 `remotion.config.ts` points at the pre-installed Chromium (`/opt/pw-browsers/chromium`).
 Remove that line on a machine where Remotion should download its own browser.
