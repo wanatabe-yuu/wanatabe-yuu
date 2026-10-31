@@ -1,7 +1,9 @@
 import React from "react";
 import {
   AbsoluteFill,
+  Audio,
   Sequence,
+  staticFile,
   interpolate,
   spring,
   useCurrentFrame,
@@ -25,6 +27,12 @@ const ROUNDS_TOTAL = roundStarts[PUZZLES.length - 1] + roundLength(PUZZLES[PUZZL
 export const TOTAL_FRAMES = ROUNDS_TOTAL + END;
 
 const FONT = "'DejaVu Sans', 'Liberation Sans', sans-serif";
+
+const Sfx: React.FC<{ name: string; at: number; volume?: number }> = ({ name, at, volume = 1 }) => (
+  <Sequence from={at} durationInFrames={FPS * 2} name={`sfx:${name}`}>
+    <Audio src={staticFile(`sfx-${name}.wav`)} volume={volume} />
+  </Sequence>
+);
 
 /* ---------- background ---------- */
 const Background: React.FC = () => {
@@ -100,6 +108,18 @@ const Round: React.FC<{ puzzle: Puzzle; index: number }> = ({ puzzle, index }) =
 
   return (
     <AbsoluteFill style={{ fontFamily: FONT }}>
+      {/* sound: whoosh on grid entry, ticks per second (urgent for last 2), ding on reveal */}
+      <Sfx name="whoosh" at={0} volume={0.65} />
+      {Array.from({ length: puzzle.seconds }).map((_, i) => (
+        <Sfx
+          key={i}
+          name={i >= puzzle.seconds - 2 ? "tick-urgent" : "tick"}
+          at={countdownStart + i * FPS}
+          volume={i >= puzzle.seconds - 2 ? 1 : 0.7}
+        />
+      ))}
+      <Sfx name="ding" at={revealStart} volume={1} />
+
       {/* header */}
       <div style={{ position: "absolute", top: 150, left: 0, right: 0, textAlign: "center" }}>
         <div style={{ color: "#a78bfa", fontWeight: 700, fontSize: 36, letterSpacing: 6 }}>
@@ -157,6 +177,7 @@ const Hook: React.FC = () => {
   const out = interpolate(frame, [HOOK - 10, HOOK], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   return (
     <AbsoluteFill style={{ alignItems: "center", paddingTop: 318, opacity: out, zIndex: 10 }}>
+      <Sfx name="thud" at={2} volume={1} />
       <div style={{
         transform: `scale(${inS}) rotate(-2deg)`,
         background: "#facc15", color: "#111827", fontFamily: FONT, fontWeight: 900,
@@ -182,6 +203,8 @@ const EndCard: React.FC = () => {
   ];
   return (
     <AbsoluteFill style={{ fontFamily: FONT, alignItems: "center", justifyContent: "center", color: "white" }}>
+      <Sfx name="riser" at={0} volume={0.8} />
+      <Sfx name="ding" at={26} volume={0.9} />
       <div style={{ fontSize: 90, fontWeight: 900, transform: `scale(${s})` }}>Your score?</div>
       <div style={{ marginTop: 50, display: "flex", flexDirection: "column", gap: 24 }}>
         {rows.map(([score, label, color], i) => {
@@ -209,6 +232,7 @@ const EndCard: React.FC = () => {
 /* ---------- composition ---------- */
 export const OddOneOut: React.FC = () => (
   <AbsoluteFill>
+    <Audio src={staticFile("music.mp3")} volume={0.5} />
     <Background />
     {PUZZLES.map((p, i) => (
       <Sequence key={i} from={roundStarts[i]} durationInFrames={roundLength(p)}>
