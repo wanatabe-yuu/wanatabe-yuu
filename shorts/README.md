@@ -18,5 +18,9 @@ npx remotion still  src/index.ts OddOneOut out/frame.jpg --frame=120
   a "comment your score" end card. Rounds are defined in `src/puzzles.ts`; change the
   grid size, seconds, seed, or `render()` to make a new variant without touching layout.
 
+- `Avatar` (800x800 still): channel avatar, a 3x3 tile grid with one glowing odd tile.
+  Render with `npx remotion still src/index.ts Avatar out/avatar.png --image-format=png`;
+  pass `--props='{"showCircleGuide":true}'` to preview YouTube's circular crop.
+
 `remotion.config.ts` points at the pre-installed Chromium (`/opt/pw-browsers/chromium`).
 Remove that line on a machine where Remotion should download its own browser.
